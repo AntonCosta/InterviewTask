@@ -8,7 +8,7 @@ public class CostumizationController : MonoBehaviour
 	[SerializeField] private GameObject costumizationScreen;
 	[SerializeField] private List<Item> Items;
 
-	private int hairIndex = 0;
+	private int hatIndex = 0;
 	private int shirtsIndex = 0;
 	private int pantsIndex = 0;
 	private int shoesIndex = 0;
@@ -16,6 +16,19 @@ public class CostumizationController : MonoBehaviour
 	public void OpenCostumizationWindow()
 	{
 		costumizationScreen.SetActive(true);
+		
+		//If we previously had an item equipped and now sold it, it is no longer equipped
+		Items.ForEach(item =>
+		{
+			if (item.gameObject.activeSelf)
+			{
+				if (!inventoryController.ReturnFullItemList().Contains(item.ItemCode))
+				{
+					//TODO: indexes also need to be reset, might be able to refactor after equipping items on the character
+					item.gameObject.SetActive(false);
+				}
+			}
+		});
 	}
 
 	public void CloseCostumizationWindow()
@@ -25,25 +38,25 @@ public class CostumizationController : MonoBehaviour
 
 	public void ChangeBetweenHairs(bool direction)
 	{
-		ChangeBetweenItems(GetNextInCarousel(direction, ref hairIndex, 3));
+		ChangeBetweenItems(direction, ref hatIndex, 3);
 	}
 
 	public void ChangeBetweenShirts(bool direction)
 	{
-		ChangeBetweenItems(GetNextInCarousel(direction, ref shirtsIndex, 2));
+		ChangeBetweenItems(direction, ref shirtsIndex, 2);
 	}
 
 	public void ChangeBetweenPants(bool direction)
 	{
-		ChangeBetweenItems(GetNextInCarousel(direction, ref pantsIndex, 1));
+		ChangeBetweenItems(direction, ref pantsIndex, 1);
 	}
 
 	public void ChangeBetweenShoes(bool direction)
 	{
-		ChangeBetweenItems(GetNextInCarousel(direction, ref shoesIndex, 0));
+		ChangeBetweenItems(direction, ref shoesIndex, 0);
 	}
 
-	private int GetNextInCarousel(bool direction, ref int index, int inventoryIndex)
+	private void ChangeBetweenItems(bool direction, ref int index, int inventoryIndex)
 	{
 		if (direction)
 		{
@@ -52,8 +65,6 @@ public class CostumizationController : MonoBehaviour
 			{
 				index = 0;
 			}
-			
-			return inventoryController.ReturnInventoryList(inventoryIndex)[index];
 		}
 		else
 		{
@@ -62,27 +73,26 @@ public class CostumizationController : MonoBehaviour
 			{
 				index = inventoryController.ReturnInventoryList(inventoryIndex).Count - 1;
 			}
-
-			return inventoryController.ReturnInventoryList(inventoryIndex)[index];
 		}
-	}
-
-	private void ChangeBetweenItems(int itemCode)
-	{
-		if (itemCode == -1)
+		
+		var itemCode = inventoryController.ReturnInventoryList(inventoryIndex)[index];
+		
+		
+		Items.ForEach(item =>
 		{
-			Items.ForEach(item => item.gameObject.SetActive(false));
-		}
-		else if(inventoryController.ReturnFullItemList().Contains(itemCode))
-		{
-			Items.ForEach(item => item.gameObject.SetActive(false));
-			Items.ForEach(item =>
+			if (item.ItemCode / 9 == inventoryIndex % 9)
 			{
-				if (item.ItemCode == itemCode)
-				{
-					item.gameObject.SetActive(true);
-				}
-			});
-		}
+				item.gameObject.SetActive(false);
+			}
+		});
+
+		Items.ForEach(item =>
+		{
+			if (item.ItemCode == itemCode)
+			{
+				item.gameObject.SetActive(true);
+			}
+		});
+		
 	}
 }

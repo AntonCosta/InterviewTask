@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class InventoryController : MonoBehaviour
 {
@@ -10,14 +11,14 @@ public class InventoryController : MonoBehaviour
 	[SerializeField] private ShopController shopController;
 
 	private List<int> Items;
-	[HideInInspector] public List<int> Hairs;
+	[HideInInspector] public List<int> Hats;
 	[HideInInspector] public List<int> Shirts;
 	[HideInInspector] public List<int> Pants;
 	[HideInInspector] public List<int> Shoes;
 
 	private void Start()
 	{
-		Hairs = new List<int>(){-1};
+		Hats = new List<int>(){-1};
 		Shirts = new List<int>(){-1};
 		Pants = new List<int>(){-1};
 		Shoes = new List<int>(){-1};
@@ -41,7 +42,7 @@ public class InventoryController : MonoBehaviour
 			return Shirts;
 		}
 		
-		return Hairs;
+		return Hats;
 	}
 	
 	public List<int> ReturnFullItemList()
@@ -66,7 +67,7 @@ public class InventoryController : MonoBehaviour
 		}
 		if (itemCode / 9 == 3)
 		{
-			Hairs.Add(itemCode);
+			Hats.Add(itemCode);
 		}
 		InventoryItems[itemCode / 9 + itemCode % 9].SetActive(true);
 		Items.Add(itemCode);
@@ -88,7 +89,7 @@ public class InventoryController : MonoBehaviour
 		}
 		if (itemCode / 9 == 3)
 		{
-			Hairs.Remove(itemCode);
+			Hats.Remove(itemCode);
 		}
 
 		shopController.AddItem(itemCode);
