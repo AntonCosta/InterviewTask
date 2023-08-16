@@ -6,11 +6,13 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
 	private static readonly int MOVE_FLAG = Animator.StringToHash("MoveFlag");
-	private const float SPEED_MODIFIER = 1f / 90f;
+	private const float SPEED_MODIFIER = 1f / 80f;
 
 	[SerializeField] private Animator animator;
 	private bool shopAvailable = false;
+	private bool costumizationAvailable = false;
 	private ShopController shopController;
+	private CostumizationController costumizationController;
 
 	void FixedUpdate()
 	{
@@ -50,10 +52,20 @@ public class CharacterController : MonoBehaviour
 			transform.eulerAngles = new Vector3(0, 0, 0);
 		}
 
-		if (Input.GetKey(KeyCode.E) && shopAvailable)
+		if (Input.GetKey(KeyCode.E))
 		{
-			shopController.OpenShop();
+			if (shopAvailable)
+			{
+				shopController.OpenShop();
+			}
+
+			if (costumizationAvailable)
+			{
+				costumizationController.OpenCostumizationWindow();
+			}
+				
 		}
+		
 	}
 
 	private void OnTriggerEnter2D(Collider2D other)
@@ -64,13 +76,18 @@ public class CharacterController : MonoBehaviour
 			shopAvailable = true;
 			shopController = otherShopController;
 		}
+
+		var otherCostumizationController = other.GetComponent<CostumizationController>();
+		if (otherCostumizationController != null)
+		{
+			costumizationAvailable = true;
+			costumizationController = otherCostumizationController;
+		}
 	}
 
 	private void OnTriggerExit2D(Collider2D other)
 	{
-		if (other.GetComponent<ShopController>() != null)
-		{
-			shopAvailable = false;
-		}
+		shopAvailable = false;
+		costumizationAvailable = false;
 	}
 }

@@ -44,6 +44,8 @@
      <Compile Include="Assets/_Scripts/CharacterController.cs" />
      <Compile Include="Assets/_Scripts/CameraController.cs" />
      <Compile Include="Assets/_Scripts/ShopController.cs" />
+     <Compile Include="Assets/_Scripts/CostumizationController.cs" />
+     <Compile Include="Assets/_Scripts/InventoryController.cs" />
      <Folder Include="Assets" />
      <None Include="Assets/Mana Seed Farmer Sprite Free Sample/Farmer Sprite System readme.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
