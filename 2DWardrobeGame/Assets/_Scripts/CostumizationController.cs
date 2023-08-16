@@ -6,10 +6,7 @@ public class CostumizationController : MonoBehaviour
 {
 	[SerializeField] private InventoryController inventoryController;
 	[SerializeField] private GameObject costumizationScreen;
-	[SerializeField] private List<GameObject> Hairs;
-	[SerializeField] private List<GameObject> Shirts;
-	[SerializeField] private List<GameObject> Pants;
-	[SerializeField] private List<GameObject> Shoes;
+	[SerializeField] private List<Item> Items;
 
 	private int hairIndex = 0;
 	private int shirtsIndex = 0;
@@ -28,43 +25,35 @@ public class CostumizationController : MonoBehaviour
 
 	public void ChangeBetweenHairs(bool direction)
 	{
-		ChangeBetweenItems(direction, ref hairIndex, Hairs, 3);
+		ChangeBetweenItems(GetNextInCarousel(direction, ref hairIndex, 3));
 	}
 
 	public void ChangeBetweenShirts(bool direction)
 	{
-		ChangeBetweenItems(direction, ref shirtsIndex, Shirts, 2);
+		ChangeBetweenItems(GetNextInCarousel(direction, ref shirtsIndex, 2));
 	}
 
 	public void ChangeBetweenPants(bool direction)
 	{
-		ChangeBetweenItems(direction, ref pantsIndex, Pants, 1);
+		ChangeBetweenItems(GetNextInCarousel(direction, ref pantsIndex, 1));
 	}
 
 	public void ChangeBetweenShoes(bool direction)
 	{
-		ChangeBetweenItems(direction, ref shoesIndex, Shoes, 0);
+		ChangeBetweenItems(GetNextInCarousel(direction, ref shoesIndex, 0));
 	}
 
-	private void ChangeBetweenItems(bool direction, ref int index, List<GameObject> ItemList, int inventoryIndex)
+	private int GetNextInCarousel(bool direction, ref int index, int inventoryIndex)
 	{
-		if (index != 0)
-		{
-			ItemList[index].SetActive(false);
-		}
-
 		if (direction)
 		{
 			index++;
-			if (index >= ItemList.Count || index >= inventoryController.ReturnInventoryList(inventoryIndex).Count)
+			if (index >= inventoryController.ReturnInventoryList(inventoryIndex).Count)
 			{
 				index = 0;
 			}
-
-			if (index != 0 && index <= inventoryController.ReturnInventoryList(inventoryIndex).Count)
-			{
-				ItemList[index].SetActive(true);
-			}
+			
+			return inventoryController.ReturnInventoryList(inventoryIndex)[index];
 		}
 		else
 		{
@@ -74,10 +63,26 @@ public class CostumizationController : MonoBehaviour
 				index = inventoryController.ReturnInventoryList(inventoryIndex).Count - 1;
 			}
 
-			if (index != 0 && index <= inventoryController.ReturnInventoryList(inventoryIndex).Count)
+			return inventoryController.ReturnInventoryList(inventoryIndex)[index];
+		}
+	}
+
+	private void ChangeBetweenItems(int itemCode)
+	{
+		if (itemCode == -1)
+		{
+			Items.ForEach(item => item.gameObject.SetActive(false));
+		}
+		else if(inventoryController.ReturnFullItemList().Contains(itemCode))
+		{
+			Items.ForEach(item => item.gameObject.SetActive(false));
+			Items.ForEach(item =>
 			{
-				ItemList[index].SetActive(true);
-			}
+				if (item.ItemCode == itemCode)
+				{
+					item.gameObject.SetActive(true);
+				}
+			});
 		}
 	}
 }

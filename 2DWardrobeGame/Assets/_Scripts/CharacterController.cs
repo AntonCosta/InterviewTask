@@ -15,6 +15,8 @@ public class CharacterController : MonoBehaviour
 	}
 
 	[SerializeField] private Animator animator;
+	[SerializeField] private InventoryController inventoryController;
+	
 	private bool shopAvailable = false;
 	private bool costumizationAvailable = false;
 	private ShopController shopController;
@@ -67,6 +69,7 @@ public class CharacterController : MonoBehaviour
 			if (shopAvailable)
 			{
 				shopController.OpenShop();
+				inventoryController.OpenInventory();
 				CanMove = false;
 			}
 

@@ -44,6 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5fa872f40d547cab96881a620a0f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryScreen: {fileID: 0}
+  Hairs: 
+  Shirts: 
+  Pants: 
+  Shoes: 
 --- !u!1 &7838416684289683447
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,3 +209,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 7838416684289683442}
+  inventoryController: {fileID: 0}
