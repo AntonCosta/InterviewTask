@@ -16,6 +16,7 @@ public class ShopController : MonoBehaviour
 
 	public void ShopItemPressed(int itemCode)
 	{
+		//Shop items are arranged by columns for shoes, pants, shirts and hairs
 		if (itemCode / 9 == 0)
 		{
 			InventoryController.Shoes.Add(0);
