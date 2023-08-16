@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/_Scripts/CharacterController.cs" />
+     <Compile Include="Assets/_Scripts/CameraController.cs" />
      <Folder Include="Assets" />
      <None Include="Assets/Mana Seed Farmer Sprite Free Sample/Farmer Sprite System readme.txt" />
      <Folder Include="Assets/_Scripts" />
