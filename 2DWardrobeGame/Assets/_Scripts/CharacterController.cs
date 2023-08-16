@@ -25,11 +25,11 @@ public class CharacterController : MonoBehaviour
 	{
 		if (CanMove)
 		{
-			if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+			if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
 			{
 				transform.eulerAngles = new Vector3(0, 180, 0);
 			}
-			else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+			if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
 			{
 				transform.eulerAngles = new Vector3(0, 0, 0);
 			}
