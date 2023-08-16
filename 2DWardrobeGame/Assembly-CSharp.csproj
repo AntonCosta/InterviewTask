@@ -43,6 +43,7 @@
   <ItemGroup>
      <Compile Include="Assets/_Scripts/CharacterController.cs" />
      <Compile Include="Assets/_Scripts/CameraController.cs" />
+     <Compile Include="Assets/_Scripts/ShopController.cs" />
      <Folder Include="Assets" />
      <None Include="Assets/Mana Seed Farmer Sprite Free Sample/Farmer Sprite System readme.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
@@ -118,6 +119,7 @@
      <Folder Include="Assets/Brackeys/2D Mega Pack/Characters" />
      <Folder Include="Assets/TextMesh Pro/Shaders" />
      <Folder Include="Assets/Brackeys/2D Mega Pack/Weapons &amp; Tools" />
+     <Folder Include="Assets/_Resources" />
      <Folder Include="Assets/TextMesh Pro/Resources/Style Sheets" />
      <Folder Include="Assets/Brackeys/2D Mega Pack/Shapes" />
      <Folder Include="Assets/TextMesh Pro/Fonts" />
