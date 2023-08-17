@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,6 +10,7 @@ public class InventoryController : MonoBehaviour
 	[SerializeField] private GameObject inventoryScreen;
 	[SerializeField] private List<GameObject> InventoryItems;
 	[SerializeField] private ShopController shopController;
+	[SerializeField] private List<Item> playerItems;
 
 	private List<int> Items;
 	[HideInInspector] public List<int> Hats;
@@ -95,6 +97,13 @@ public class InventoryController : MonoBehaviour
 		shopController.AddItem(itemCode);
 		InventoryItems[itemCode / 9 + itemCode % 9].SetActive(false);
 		Items.Remove(itemCode);
+		playerItems.ForEach(item =>
+		{
+			if (item.ItemCode == itemCode && item.gameObject.activeSelf)
+			{
+				item.gameObject.SetActive(false);
+			}
+		});
 	}
 
 	public void OpenInventory()

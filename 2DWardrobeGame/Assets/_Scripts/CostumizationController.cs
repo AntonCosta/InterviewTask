@@ -13,9 +13,12 @@ public class CostumizationController : MonoBehaviour
 	private int pantsIndex = 0;
 	private int shoesIndex = 0;
 
-	public void OpenCostumizationWindow()
+	private List<Item> playerItems;
+
+	public void OpenCostumizationWindow(List<Item> items)
 	{
 		costumizationScreen.SetActive(true);
+		playerItems = items;
 		
 		//If we previously had an item equipped and now sold it, it is no longer equipped
 		Items.ForEach(item =>
@@ -34,6 +37,7 @@ public class CostumizationController : MonoBehaviour
 	public void CloseCostumizationWindow()
 	{
 		costumizationScreen.SetActive(false);
+		playerItems = new List<Item>();
 	}
 
 	public void ChangeBetweenHairs(bool direction)
@@ -85,8 +89,24 @@ public class CostumizationController : MonoBehaviour
 				item.gameObject.SetActive(false);
 			}
 		});
+		
+		playerItems.ForEach(item =>
+		{
+			if (item.ItemCode / 9 == inventoryIndex % 9)
+			{
+				item.gameObject.SetActive(false);
+			}
+		});
 
 		Items.ForEach(item =>
+		{
+			if (item.ItemCode == itemCode)
+			{
+				item.gameObject.SetActive(true);
+			}
+		});
+		
+		playerItems.ForEach(item =>
 		{
 			if (item.ItemCode == itemCode)
 			{

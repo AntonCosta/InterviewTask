@@ -14,9 +14,10 @@ public class CharacterController : MonoBehaviour
 		set => canMove = value;
 	}
 
-	[SerializeField] private Animator animator;
+	[SerializeField] private List<Animator> animator;
 	[SerializeField] private InventoryController inventoryController;
-	
+	[SerializeField] private List<Item> items;
+
 	private bool shopAvailable = false;
 	private bool costumizationAvailable = false;
 	private ShopController shopController;
@@ -31,6 +32,7 @@ public class CharacterController : MonoBehaviour
 			{
 				transform.eulerAngles = new Vector3(0, 180, 0);
 			}
+
 			if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
 			{
 				transform.eulerAngles = new Vector3(0, 0, 0);
@@ -38,30 +40,72 @@ public class CharacterController : MonoBehaviour
 
 			if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
 			{
-				animator.SetInteger(MOVE_FLAG, 1);
+				animator.ForEach(x =>
+				{
+					if (x.gameObject.activeSelf)
+					{
+						x.SetInteger(MOVE_FLAG, 1);
+					}
+				});
 				transform.position += new Vector3(0f, -1 * SPEED_MODIFIER, 0f);
 			}
 			else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
 			{
-				animator.SetInteger(MOVE_FLAG, 2);
+				animator.ForEach(x =>
+				{
+					if (x.gameObject.activeSelf)
+					{
+						x.SetInteger(MOVE_FLAG, 2);
+					}
+				});
 				transform.position += new Vector3(0f, 1 * SPEED_MODIFIER, 0f);
 			}
 			else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
 			{
-				animator.SetInteger(MOVE_FLAG, 3);
+				animator.ForEach(x =>
+				{
+					if (x.gameObject.activeSelf)
+					{
+						x.SetInteger(MOVE_FLAG, 3);
+					}
+				});
 				transform.position += new Vector3(1 * SPEED_MODIFIER, 0f, 0f);
 			}
 			else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
 			{
-				animator.SetInteger(MOVE_FLAG, 3);
+				animator.ForEach(x =>
+				{
+					if (x.gameObject.activeSelf)
+					{
+						x.SetInteger(MOVE_FLAG, 3);
+					}
+				});
 				transform.position += new Vector3(-1 * SPEED_MODIFIER, 0f, 0f);
 			}
 			else
 			{
-				animator.SetInteger(MOVE_FLAG, 0);
+				animator.ForEach(x =>
+				{
+					if (x.gameObject.activeSelf)
+					{
+						x.SetInteger(MOVE_FLAG, 0);
+					}
+				});
 
 				transform.eulerAngles = new Vector3(0, 0, 0);
 			}
+		}
+		else
+		{
+			animator.ForEach(x =>
+			{
+				if (x.gameObject.activeSelf)
+				{
+					x.SetInteger(MOVE_FLAG, 0);
+				}
+			});
+
+			transform.eulerAngles = new Vector3(0, 0, 0);
 		}
 
 		if (Input.GetKey(KeyCode.E))
@@ -75,12 +119,10 @@ public class CharacterController : MonoBehaviour
 
 			if (costumizationAvailable)
 			{
-				costumizationController.OpenCostumizationWindow();
+				costumizationController.OpenCostumizationWindow(items);
 				CanMove = false;
 			}
-				
 		}
-		
 	}
 
 	private void OnTriggerEnter2D(Collider2D other)
