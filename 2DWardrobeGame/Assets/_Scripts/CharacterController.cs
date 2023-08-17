@@ -119,7 +119,7 @@ public class CharacterController : MonoBehaviour
 
 			if (costumizationAvailable)
 			{
-				costumizationController.OpenCostumizationWindow();
+				costumizationController.OpenCostumizationWindow(items);
 				CanMove = false;
 			}
 		}

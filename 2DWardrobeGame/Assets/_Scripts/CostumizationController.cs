@@ -13,11 +13,12 @@ public class CostumizationController : MonoBehaviour
 	private int pantsIndex = 0;
 	private int shoesIndex = 0;
 
-	public void OpenCostumizationWindow()
+	public void OpenCostumizationWindow(List<Item> playerItems)
 	{
 		costumizationScreen.SetActive(true);
 		
 		//If we previously had an item equipped and now sold it, it is no longer equipped
+		//even if we buy it again
 		Items.ForEach(item =>
 		{
 			if (item.gameObject.activeSelf)
@@ -41,6 +42,16 @@ public class CostumizationController : MonoBehaviour
 						hatIndex--;
 					}
 					item.gameObject.SetActive(false);
+				}
+				else
+				{
+					playerItems.ForEach(pItem =>
+					{
+						if (!pItem.gameObject.activeSelf && pItem.ItemCode == item.ItemCode)
+						{
+							item.gameObject.SetActive(false);
+						}
+					});
 				}
 			}
 		});
@@ -75,18 +86,36 @@ public class CostumizationController : MonoBehaviour
 	{
 		if (direction)
 		{
-			index++;
+			//This is meant to cover the case in which you are wearing something and sell it to the shop
+			//If there are multiple items of one type, let's say Hair, if you sell the hair at index 1 but still have the one at index 2
+			//We don't want the index to reset completely or have you press the arrow button multiple times to reach the one you own.
 			if (index >= inventoryController.ReturnInventoryList(inventoryIndex).Count)
 			{
 				index = 0;
 			}
+			else
+			{
+				index++;
+				if (index >= inventoryController.ReturnInventoryList(inventoryIndex).Count)
+				{
+					index = 0;
+				}
+			}
 		}
 		else
 		{
-			index--;
+			//Same reasoning as above
 			if (index < 0)
 			{
 				index = inventoryController.ReturnInventoryList(inventoryIndex).Count - 1;
+			}
+			else
+			{
+				index--;
+				if (index < 0)
+				{
+					index = inventoryController.ReturnInventoryList(inventoryIndex).Count - 1;
+				}
 			}
 		}
 		
